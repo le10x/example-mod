@@ -1,11 +1,11 @@
 {
-	"geode": "3.0.0",
+	"geode": "5.5.3",
 	"gd": {
 		"win": "2.2081",
 		"android": "2.2081"
 	},
 	"id": "le10x.test_mod",
-	"name": "TestGDMod",
+	"name": "MyTestMod",
 	"version": "1.0.0",
 	"developer": "le10x",
 	"description": "Un mod de prueba que añade un botón de Hello World al menú de pausa.",
