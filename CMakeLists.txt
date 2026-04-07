@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-
-project(MyTestMod)
+project(Test)
 
 find_package(Geode REQUIRED)
 
