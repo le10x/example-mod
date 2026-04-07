@@ -7,20 +7,25 @@ class $modify(MyPauseLayer, PauseLayer) {
     bool init() {
         if (!PauseLayer::init()) return false;
 
-        // Crear el botón con tu imagen
+        // Creamos el sprite usando la imagen que subiste
         auto buttonSprite = CCSprite::createWithSpriteFrameName("my_button.png");
         
+        // Si por alguna razón la imagen no carga, usamos una por defecto para que no crashee
+        if (!buttonSprite) {
+            buttonSprite = CCSprite::createWithSpriteFrameName("GJ_playBtn_001.png");
+        }
+
         auto myButton = CCMenuItemSpriteExtra::create(
             buttonSprite,
             this,
             menu_selector(MyPauseLayer::onMyButtonClick)
         );
 
-        // Intentar ponerlo en el menú de la izquierda
+        // Agregamos el botón al menú izquierdo
         if (auto leftMenu = this->getChildByID("left-button-menu")) {
-            myButton->setID("hello-world-button"_spr);
+            myButton->setID("test-button-saludo"_spr);
             leftMenu->addChild(myButton);
-            leftMenu->updateLayout(); 
+            leftMenu->updateLayout();
         }
 
         return true;
@@ -28,9 +33,9 @@ class $modify(MyPauseLayer, PauseLayer) {
 
     void onMyButtonClick(CCObject* sender) {
         FLAlertLayer::create(
-            "Prueba",           // Título
-            "Hello World",      // Mensaje
-            "OK"                // Botón
+            "Prueba", 
+            "Hello World", 
+            "OK"
         )->show();
     }
 };
