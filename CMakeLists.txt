@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(Test)
+project(TestMod)
 
 find_package(Geode REQUIRED)
 
@@ -7,3 +7,5 @@ add_geode_mod(
     ${PROJECT_NAME}
     SOURCES src/main.cpp
 )
+
+setup_geode_mod(${PROJECT_NAME} RESOURCES resources)
