@@ -1,13 +1,13 @@
 {
-	"geode": "5.5.3",
+	"geode": "v3.0.0-beta.1",
 	"gd": {
 		"win": "2.2081",
 		"android": "2.2081"
 	},
-	"id": "le10x.test",
-	"name": "Test",
+	"id": "user.test-mod",
+	"name": "Test Mod",
 	"version": "1.0.0",
-	"developer": "le10x",
+	"developer": "User",
 	"description": "Test Mod",
 	"resources": {
 		"sprites": [
