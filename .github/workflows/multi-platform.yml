@@ -10,14 +10,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Geode SDK
-        uses: geode-sdk/setup-geode@v3
-        with:
-          sdk: v5.5.0
-
       - name: Build Mod
-        uses: geode-sdk/build-geode-mod@main
+        uses: geode-sdk/build-geode-mod@v3
         with:
           target: Android32
           sdk: v5.5.0
+          combine: true
           
