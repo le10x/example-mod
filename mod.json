@@ -2,16 +2,11 @@
 	"geode": "v3.0.0-beta.1",
 	"gd": {
 		"win": "2.206",
-		"android": "*"
+		"android": "2.2081"
 	},
-	"id": "user.test_mod",
+	"id": "tu.nombre.test_mod",
 	"name": "Test Mod",
 	"version": "1.0.0",
 	"developer": "User",
-	"description": "Test Mod",
-	"resources": {
-		"sprites": [
-			"my_button.png"
-		]
-	}
+	"description": "Test"
 }
