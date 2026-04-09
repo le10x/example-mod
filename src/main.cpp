@@ -28,3 +28,4 @@ class $modify(MyPauseLayer, PauseLayer) {
 
         return true;
     }
+};
