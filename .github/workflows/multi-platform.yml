@@ -20,7 +20,9 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           target: ${{ matrix.config.target }}
-          # Al poner la versión aquí, la acción fuerza a CMake a encontrarla
           sdk: v5.5.0
           combine: true
+        env:
+          # Esto fuerza a CMake a encontrar el SDK instalado
+          GEODE_SDK: ${{ github.workspace }}/geode-sdk
           
