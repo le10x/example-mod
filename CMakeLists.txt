@@ -8,4 +8,5 @@ add_geode_mod(
     SOURCES src/main.cpp
 )
 
+# Esto es vital para que incluya tu botón en el archivo final
 setup_geode_mod(${PROJECT_NAME} RESOURCES resources)
