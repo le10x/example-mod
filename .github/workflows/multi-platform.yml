@@ -3,20 +3,21 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        config:
-          - name: Android32
-            os: ubuntu-latest
-            target: Android32
-
-    runs-on: ${{ matrix.config.os }}
+    name: Android Build
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Geode SDK
+        uses: geode-sdk/setup-geode@v3
+        with:
+          sdk: v5.5.0
+
       - name: Build Mod
         uses: geode-sdk/build-geode-mod@main
         with:
-          target: ${{ matrix.config.target }}
+          target: Android32
           sdk: v5.5.0
           
