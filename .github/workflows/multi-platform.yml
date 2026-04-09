@@ -7,9 +7,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: Android 32
+          - name: Android32
             os: ubuntu-latest
-            target: android32
+            target: Android32
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
