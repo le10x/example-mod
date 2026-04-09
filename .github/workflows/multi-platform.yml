@@ -13,7 +13,7 @@ jobs:
         # Esta es la acción que contiene todo el proceso
         uses: geode-sdk/build-geode-mod@main
         with:
-          target: android32
+          target: Android32
           sdk: v5.5.0
           combine: true
           
