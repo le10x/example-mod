@@ -1,25 +1,23 @@
 name: Build Geode Mod
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+on: [workflow_dispatch, push]
 
 jobs:
   build:
-    name: Build Android 32-bit
+    name: Build Android
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      # Este paso instala el SDK necesario para encontrar GeodeConfig.cmake
+      - name: Setup Geode SDK
+        uses: geode-sdk/setup-geode-sdk@main
+        with:
+          sdk: nightly
 
       - name: Build Mod
         uses: geode-sdk/build-geode-mod@main
         with:
-          # Especificamos Android32 explícitamente
           target: Android32
           sdk: nightly
-          # Quitamos 'combine: true' porque solo queremos 32 bits
+          combine: false
           
