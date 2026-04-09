@@ -22,6 +22,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Este paso instala el SDK para que CMake pueda encontrarlo
+      - name: Setup Geode SDK
+        uses: geode-sdk/setup-geode@v3.0.0
+        with:
+          sdk: v5.5.0
+
       - name: Build Mod
         uses: geode-sdk/build-geode-mod@main
         with:
