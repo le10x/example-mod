@@ -11,8 +11,7 @@ jobs:
       - name: Build Mod
         uses: geode-sdk/build-geode-mod@main
         with:
-          # Al usar 'Android' (sin el 32), la acción moderna 
-          # instala automáticamente el SDK y compila para 32 y 64 bits.
+          # Ponemos el valor fijo sin variables de matriz
           target: Android
           sdk: nightly
           combine: true
