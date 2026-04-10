@@ -8,13 +8,19 @@
 	},
 	"id": "le10x.two_player_toggle",
 	"name": "2 Player Toggler",
-	"version": "1.0.0",
+	"version": "1.3.0",
 	"developer": "le10x",
-	"description": "Toggle 2P mode.",
+	"description": "Toggle 2P mode with a green checkmark.",
 	"settings": {
 		"reset-on-death": {
 			"name": "Reset on Death",
-			"description": "Return to the original state of the level if you die.",
+			"description": "Returns to the original state if you die.",
+			"type": "bool",
+			"default": false
+		},
+		"show-original-status": {
+			"name": "Show Original Status",
+			"description": "Shows if the level was originally 2P in the info box.",
 			"type": "bool",
 			"default": false
 		}
