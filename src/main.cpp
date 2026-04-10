@@ -27,18 +27,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 };
 
 class $modify(MyPauseLayer, PauseLayer) {
-    void onToggleTwoPlayer(CCObject* sender) {
-        auto levelSettings = PlayLayer::get()->m_levelSettings;
-        auto toggler = static_cast<CCMenuItemToggler*>(sender);
-        levelSettings->m_twoPlayerMode = !toggler->isToggled();
-    }
-
-    bool init(bool unfocused) {
-        if (!PauseLayer::init(unfocused)) return false;
-
+    // Usamos customSetup en lugar de init para evitar el error de Windows
+    void customSetup() {
+        PauseLayer::customSetup();
+        
         auto levelSettings = PlayLayer::get()->m_levelSettings;
 
-        // Toggler reducido un 25% (de 0.9f a 0.67f aprox)
+        // Toggler (Check)
         auto toggler = CCMenuItemToggler::createWithStandardSprites(
             this,
             menu_selector(MyPauseLayer::onToggleTwoPlayer),
@@ -46,23 +41,26 @@ class $modify(MyPauseLayer, PauseLayer) {
         );
         toggler->toggle(levelSettings->m_twoPlayerMode);
 
-        // Texto "2-Player Mode" reducido un 25% (de 0.4f a 0.3f)
+        // Texto "2-Player Mode"
         auto label = CCLabelBMFont::create("2-Player Mode", "bigFont.fnt");
         label->setScale(0.3f);
         label->setAnchorPoint({0, 0.5});
-        label->setPosition({20, 0}); // Espacio después del check
+        label->setPosition({20, 0});
 
         auto menu = CCMenu::create();
         menu->addChild(toggler);
         menu->addChild(label);
         
-        // Movido 2mm (aprox +7 unidades) a la derecha y arriba: 
-        // X: 35 -> 42 | Y: 30 -> 37
+        // Posición ajustada
         menu->setPosition({42, 37});
         menu->setID("two-player-menu"_spr);
 
         this->addChild(menu);
+    }
 
-        return true;
+    void onToggleTwoPlayer(CCObject* sender) {
+        auto levelSettings = PlayLayer::get()->m_levelSettings;
+        auto toggler = static_cast<CCMenuItemToggler*>(sender);
+        levelSettings->m_twoPlayerMode = !toggler->isToggled();
     }
 };
