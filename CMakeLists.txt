@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.25)
 
-# Esto fuerza la descarga del SDK si GitHub no lo inyecta correctamente
+project(TestMod)
+
+# Esto busca el SDK de Geode. Si falla, intenta descargarlo automáticamente.
+find_package(Geode CONFIG)
+
 if (NOT Geode_FOUND)
     include(FetchContent)
     FetchContent_Declare(
@@ -9,10 +13,8 @@ if (NOT Geode_FOUND)
         GIT_TAG v5.5.3
     )
     FetchContent_MakeAvailable(Geode)
+    find_package(Geode REQUIRED)
 endif()
 
-project(TestMod)
-
-find_package(Geode REQUIRED)
-
+# Asegúrate de que tu código esté en la carpeta src/ y se llame main.cpp
 add_geode_mod(${PROJECT_NAME} SOURCES src/main.cpp)
