@@ -4,27 +4,23 @@
 
 using namespace geode::prelude;
 
-// Variable global para recordar cómo era el nivel originalmente
 bool g_originalTwoPlayerState = false;
 
 class $modify(MyPlayLayer, PlayLayer) {
     bool init(GJGameLevel* level, bool useReplay, bool dontSave) {
         if (!PlayLayer::init(level, useReplay, dontSave)) return false;
-        // Guardamos el estado original apenas empieza el nivel
         g_originalTwoPlayerState = m_levelSettings->m_twoPlayerMode;
         return true;
     }
 
     void resetLevel() {
         PlayLayer::resetLevel();
-        // Si la opción de Geode está activa, reseteamos al morir
         if (Mod::get()->getSettingValue<bool>("reset-on-death")) {
             m_levelSettings->m_twoPlayerMode = g_originalTwoPlayerState;
         }
     }
 
     void onQuit() {
-        // Al salir, siempre devolvemos el nivel a su estado original
         m_levelSettings->m_twoPlayerMode = g_originalTwoPlayerState;
         PlayLayer::onQuit();
     }
@@ -33,8 +29,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 class $modify(MyPauseLayer, PauseLayer) {
     void onToggleTwoPlayer(CCObject* sender) {
         auto levelSettings = PlayLayer::get()->m_levelSettings;
-        // El toggler cambia de estado automáticamente, solo aplicamos al juego
         auto toggler = static_cast<CCMenuItemToggler*>(sender);
+        // En Geode, isToggled() cambia después del clic, así que invertimos la lógica
         levelSettings->m_twoPlayerMode = !toggler->isToggled();
     }
 
@@ -42,26 +38,32 @@ class $modify(MyPauseLayer, PauseLayer) {
         if (!PauseLayer::init(unfocused)) return false;
 
         auto levelSettings = PlayLayer::get()->m_levelSettings;
+        auto leftMenu = this->getChildByID("left-button-menu");
 
-        // Creamos el Toggler (Checkmark verde oficial)
-        auto toggler = CCMenuItemToggler::createWithStandardSprites(
-            this,
-            menu_selector(MyPauseLayer::onToggleTwoPlayer),
-            0.8f // Tamaño
-        );
-        
-        // Lo ponemos en el estado actual del nivel
-        toggler->toggle(levelSettings->m_twoPlayerMode);
-        toggler->setID("two-player-toggle"_spr);
+        if (leftMenu) {
+            // Contenedor para el check y el texto
+            auto container = CCNode::create();
+            container->setLayout(RowLayout::create()->setGap(5.f)); // Espacio entre check y texto
+            container->setContentSize({60, 30});
 
-        // Añadimos un texto pequeño al lado del check
-        auto label = CCLabelBMFont::create("2P", "bigFont.fnt");
-        label->setScale(0.4f);
-        label->setPosition({-20, 15}); // Ajusta según necesites
-        toggler->addChild(label);
+            // Toggler (Check)
+            auto toggler = CCMenuItemToggler::createWithStandardSprites(
+                this,
+                menu_selector(MyPauseLayer::onToggleTwoPlayer),
+                0.7f
+            );
+            toggler->toggle(levelSettings->m_twoPlayerMode);
+            toggler->setID("two-player-toggle"_spr);
 
-        if (auto leftMenu = this->getChildByID("left-button-menu")) {
-            leftMenu->addChild(toggler);
+            // Texto "2P"
+            auto label = CCLabelBMFont::create("2P", "bigFont.fnt");
+            label->setScale(0.4f);
+
+            container->addChild(toggler);
+            container->addChild(label);
+            container->updateLayout();
+
+            leftMenu->addChild(container);
             leftMenu->updateLayout();
         }
 
