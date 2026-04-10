@@ -27,12 +27,11 @@ class $modify(MyPlayLayer, PlayLayer) {
 };
 
 class $modify(MyPauseLayer, PauseLayer) {
-    // Función para el botón de información
     void onInfo(CCObject* sender) {
         FLAlertLayer::create(
             "2 Player Toggler",
-            "Use this switch to turn <cl>2 Player Mode</c> on or off at this level.\n\n"
-            "<cy>Nota:</c> The controls will be split across two sides of the screen.",
+            "Use this switch to turn <cl>2 Player Mode</c> on or off.\n\n"
+            "<cy>Note:</c> The controls will be split across two sides of the screen.",
             "OK"
         )->show();
     }
@@ -50,32 +49,30 @@ class $modify(MyPauseLayer, PauseLayer) {
         auto leftMenu = this->getChildByID("left-button-menu");
 
         if (leftMenu) {
-            // Creamos un nodo para agrupar el Toggler y el Info
             auto container = CCNode::create();
-            container->setContentSize({40, 60});
+            container->setContentSize({45, 60});
             container->setID("two-player-group"_spr);
 
-            // 1. Toggler (Check)
+            // Toggler un poco más grande (0.9f)
             auto toggler = CCMenuItemToggler::createWithStandardSprites(
                 this,
                 menu_selector(MyPauseLayer::onToggleTwoPlayer),
-                0.8f
+                0.9f 
             );
             toggler->toggle(levelSettings->m_twoPlayerMode);
-            toggler->setPosition({20, 20});
+            toggler->setPosition({22, 22});
 
-            // 2. Botón de Info (pequeño y arriba)
+            // Botón de Info un poco más abajo (posición Y bajada de 45 a 42)
             auto infoSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
-            infoSprite->setScale(0.6f);
+            infoSprite->setScale(0.65f);
             
             auto infoBtn = CCMenuItemSpriteExtra::create(
                 infoSprite,
                 this,
                 menu_selector(MyPauseLayer::onInfo)
             );
-            infoBtn->setPosition({35, 45}); // Posicionado arriba a la derecha del check
+            infoBtn->setPosition({38, 42}); 
 
-            // 3. Crear un menú interno para que detecte clics
             auto innerMenu = CCMenu::create();
             innerMenu->setPosition({0, 0});
             innerMenu->addChild(toggler);
