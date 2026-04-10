@@ -27,16 +27,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 };
 
 class $modify(MyPauseLayer, PauseLayer) {
-    void onInfo(CCObject* sender) {
-        // Corrección definitiva: <cy>Note:</c> para que aparezca en amarillo
-        FLAlertLayer::create(
-            "2 Player Toggler",
-            "Use this switch to enable or disable <cl>2 Player Mode</c>.\n\n"
-            "<cy>Note:</c> Controls will be split on both sides of the screen.",
-            "OK"
-        )->show();
-    }
-
     void onToggleTwoPlayer(CCObject* sender) {
         auto levelSettings = PlayLayer::get()->m_levelSettings;
         auto toggler = static_cast<CCMenuItemToggler*>(sender);
@@ -48,39 +38,27 @@ class $modify(MyPauseLayer, PauseLayer) {
 
         auto levelSettings = PlayLayer::get()->m_levelSettings;
 
-        // 1. Toggler (Check) - Reducido a 0.65f (25% más pequeño que 0.9f)
+        // Toggler reducido un 25% (de 0.9f a 0.67f aprox)
         auto toggler = CCMenuItemToggler::createWithStandardSprites(
             this,
             menu_selector(MyPauseLayer::onToggleTwoPlayer),
-            0.65f 
+            0.67f 
         );
         toggler->toggle(levelSettings->m_twoPlayerMode);
-        toggler->setPosition({0, 0});
 
-        // 2. Botón de Info (Reducido a 0.6f y movido 1mm a la derecha: x=39)
-        auto infoSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
-        auto infoBtn = CCMenuItemSpriteExtra::create(
-            infoSprite,
-            this,
-            menu_selector(MyPauseLayer::onInfo)
-        );
-        infoBtn->setScale(0.6f);
-        infoBtn->setPosition({39, 25}); // x=39 movido un milímetro a la derecha
-
-        // 3. Texto "2-Player Mode" - Reducido a 0.35f
+        // Texto "2-Player Mode" reducido un 25% (de 0.4f a 0.3f)
         auto label = CCLabelBMFont::create("2-Player Mode", "bigFont.fnt");
-        label->setScale(0.35f);
+        label->setScale(0.3f);
         label->setAnchorPoint({0, 0.5});
-        label->setPosition({20, 0}); // Pegado a la derecha del check
+        label->setPosition({20, 0}); // Espacio después del check
 
-        // 4. Menú contenedor en la esquina inferior izquierda
         auto menu = CCMenu::create();
         menu->addChild(toggler);
-        menu->addChild(infoBtn);
         menu->addChild(label);
         
-        // Coordenadas fijas para la esquina
-        menu->setPosition({30, 25});
+        // Movido 2mm (aprox +7 unidades) a la derecha y arriba: 
+        // X: 35 -> 42 | Y: 30 -> 37
+        menu->setPosition({42, 37});
         menu->setID("two-player-menu"_spr);
 
         this->addChild(menu);
