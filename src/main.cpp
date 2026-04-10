@@ -69,7 +69,9 @@ class $modify(MyPauseLayer, PauseLayer) {
                 this,
                 menu_selector(MyPauseLayer::onInfo)
             );
-            infoBtn->setPosition({38, 42}); 
+            // Ajustado un milímetro más abajo (de 42 a 41) y un poco más grande (de 0.65 a 0.7)
+            infoBtn->setScale(0.7f);
+            infoBtn->setPosition({38, 41}); 
 
             auto innerMenu = CCMenu::create();
             innerMenu->setPosition({0, 0});
