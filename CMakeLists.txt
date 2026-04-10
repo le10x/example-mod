@@ -1,20 +1,26 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.21)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if ("${CMAKE_SYSTEM_NAME}" STREQUAL "iOS" OR IOS)
+  set(CMAKE_OSX_ARCHITECTURES "arm64")
+else()
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif()
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-project(TestMod)
+project(TestMod VERSION 1.0.0)
 
-# Intenta buscarlo primero
-find_package(Geode CONFIG)
+add_library(${PROJECT_NAME} SHARED
+    src/main.cpp
+    # Add any extra C++ source files here
+)
 
-if (NOT Geode_FOUND)
-    include(FetchContent)
-    FetchContent_Declare(
-        Geode
-        # ASEGÚRATE DE QUE LA URL ESTÉ COMPLETA ABAJO:
-        GIT_REPOSITORY https://github.com
-        GIT_TAG v5.5.3
-    )
-    FetchContent_MakeAvailable(Geode)
-    find_package(Geode REQUIRED)
+if (NOT DEFINED ENV{GEODE_SDK})
+    message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")
+else()
+    message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
-add_geode_mod(${PROJECT_NAME} SOURCES src/main.cpp)
+add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
+
+setup_geode_mod(${PROJECT_NAME})
