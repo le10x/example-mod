@@ -30,7 +30,8 @@ class $modify(MyPauseLayer, PauseLayer) {
     void onToggleTwoPlayer(CCObject* sender) {
         auto levelSettings = PlayLayer::get()->m_levelSettings;
         auto toggler = static_cast<CCMenuItemToggler*>(sender);
-        // En Geode, isToggled() cambia después del clic, así que invertimos la lógica
+        
+        // Corregimos la lógica: toggler->isToggled() devuelve el estado DESPUÉS del clic
         levelSettings->m_twoPlayerMode = !toggler->isToggled();
     }
 
@@ -41,29 +42,33 @@ class $modify(MyPauseLayer, PauseLayer) {
         auto leftMenu = this->getChildByID("left-button-menu");
 
         if (leftMenu) {
-            // Contenedor para el check y el texto
-            auto container = CCNode::create();
-            container->setLayout(RowLayout::create()->setGap(5.f)); // Espacio entre check y texto
-            container->setContentSize({60, 30});
-
-            // Toggler (Check)
+            // 1. Toggler (Check) - Aumentamos escala a 0.8f para que no sea tan pequeño
             auto toggler = CCMenuItemToggler::createWithStandardSprites(
                 this,
                 menu_selector(MyPauseLayer::onToggleTwoPlayer),
-                0.7f
+                0.8f
             );
             toggler->toggle(levelSettings->m_twoPlayerMode);
             toggler->setID("two-player-toggle"_spr);
 
-            // Texto "2P"
+            // 2. Texto "2P"
             auto label = CCLabelBMFont::create("2P", "bigFont.fnt");
-            label->setScale(0.4f);
+            label->setScale(0.5f);
 
-            container->addChild(toggler);
-            container->addChild(label);
-            container->updateLayout();
+            // 3. Contenedor especializado (CCMenu) 
+            // Usar CCMenu en lugar de CCNode hace que los clics funcionen siempre
+            auto menuContainer = CCMenu::create();
+            menuContainer->setLayout(RowLayout::create()->setGap(10.f)->setAutoScale(false));
+            
+            // Importante: Definir un tamaño para que el menú sea "cliqueable"
+            menuContainer->setContentSize({80, 40});
+            menuContainer->setPosition({0, 0}); // Se posicionará mediante el layout del padre
 
-            leftMenu->addChild(container);
+            menuContainer->addChild(toggler);
+            menuContainer->addChild(label);
+            menuContainer->updateLayout();
+
+            leftMenu->addChild(menuContainer);
             leftMenu->updateLayout();
         }
 
