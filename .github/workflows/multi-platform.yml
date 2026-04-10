@@ -37,16 +37,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Este paso instala el SDK y soluciona el error de CMake
-      - name: Setup Geode SDK
-        uses: geode-sdk/setup-geode@v3
-        with:
-          sdk: v5.5.3
-          cli: v3.0.0
-
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
+          # Usamos v5.5.3 para asegurar compatibilidad con GD 2.2081
+          sdk: v5.5.3
+          cli: v3.7.4
           bindings: geode-sdk/bindings
           bindings-ref: main
           combine: true
