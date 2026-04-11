@@ -6,11 +6,11 @@
 		"mac": "2.2081",
 		"ios": "2.2081"
 	},
-	"id": "le10x.two_player_toggler",
-	"name": "2-Player Toggler",
+	"id": "le10x.two_player_swapper",
+	"name": "2-Player Swapper",
 	"version": "1.0.0",
 	"developer": "le10x",
-	"description": "Toggle 2P mode with a green checkmark in the pause menu.",
+	"description": "Toggle 2P mode with a button in the pause menu.",
 	"tags": ["gameplay", "utility", "interface", "cheat"],
 	"settings": {
 		"reset-on-death": {
