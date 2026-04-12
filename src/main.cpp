@@ -1,8 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/PauseLayer.hpp>
-// Añadimos este para que reconozca la función base
-#include <Geode/modify/GJBaseGameLayer.hpp>
 
 using namespace geode::prelude;
 
@@ -26,10 +24,10 @@ class $modify(MyPlayLayer, PlayLayer) {
             bool targetIsPlayer1 = !isRightSide;
             if (invert) targetIsPlayer1 = isRightSide;
 
-            // Cambiamos PlayLayer:: por GJBaseGameLayer::
-            GJBaseGameLayer::dispatchClick(push, button, targetIsPlayer1, pos);
+            // Usamos this-> para referirnos a la función original de la clase base
+            this->dispatchClick(push, button, targetIsPlayer1, pos);
         } else {
-            GJBaseGameLayer::dispatchClick(push, button, isPlayer1, pos);
+            this->dispatchClick(push, button, isPlayer1, pos);
         }
     }
 
@@ -46,4 +44,4 @@ class $modify(MyPlayLayer, PlayLayer) {
     }
 };
 
-// ... (El resto de tu MyPauseLayer se mantiene igual)
+// ... (El código de MyPauseLayer se mantiene igual)
